@@ -16,4 +16,4 @@ dotnet run --project Velozient.DroneDeliveryService.WebApi --urls=http://localho
 ## Testing the service
 
 - Open in the browser: http://localhost:5001/swagger/index.html
-- Request the route POST /Itinerary informing the file containing the Drones and Deliveries. There are some samples in the Samples folder
+- Request the route POST /Itinerary informing the file containing the Drones and Deliveries. There are some input files in the Samples folder
