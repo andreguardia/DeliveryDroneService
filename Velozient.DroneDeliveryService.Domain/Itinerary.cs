@@ -7,9 +7,11 @@ namespace DroneDeliveryService.Domain
         public Itinerary()
         {
             Drones = new List<Drone>();
+            Deliveries = new List<Delivery>();
         }
 
         public ICollection<Drone> Drones { get; set; }
+        public ICollection<Delivery> Deliveries { get; set; }
 
         public void AddDrone(Drone drone)
         {
@@ -17,9 +19,9 @@ namespace DroneDeliveryService.Domain
                 Drones.Add(drone);
         }
 
-        public void AddDeliveries(ICollection<Delivery> deliveries)
+        public void Arrange()
         {
-            foreach (var delivery in deliveries)
+            foreach (var delivery in Deliveries)
             {
                 var drone = Drones.Where(d => d.MaxWeight > delivery.PackageWeight)
                                   .Where(d => d.Trips.Any(t => t.AvailableWeight >= delivery.PackageWeight))
@@ -61,7 +63,6 @@ namespace DroneDeliveryService.Domain
         public static Itinerary Parse(string[] contents)
         {
             var itinerary = new Itinerary();
-            var deliveries = new List<Delivery>();
 
             for (var i = 0; i < contents.Length; i++)
             {
@@ -71,10 +72,10 @@ namespace DroneDeliveryService.Domain
                     for (int j = 0; j < parts.Length; j += 2)
                         itinerary.AddDrone(new Drone(parts[j], parts[j + 1]));
                 else
-                    deliveries.Add(new Delivery(parts[0], parts[1]));
+                    itinerary.Deliveries.Add(new Delivery(parts[0], parts[1]));
             }
 
-            itinerary.AddDeliveries(deliveries);
+            itinerary.Arrange();
             return itinerary;
         }
     }
